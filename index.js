@@ -7,7 +7,13 @@
  * trimProperties({ name: '  jane  ' }) // returns a new object { name: 'jane' }
  */
 function trimProperties(obj) {
-  // ✨ implement
+  const newObj = {}
+
+  for(let key in obj){
+    newObj[key] = obj[key].trim()
+  }
+
+  return newObj
 }
 
 /**
@@ -144,7 +150,7 @@ class Car {
  *    // result is false
  * })
  */
-function isEvenNumberAsync(number) {
+async function isEvenNumberAsync(number) {
   // ✨ implement
 }
 
