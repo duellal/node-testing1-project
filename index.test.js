@@ -24,13 +24,12 @@ describe('[Exercise 2] trimPropertiesMutation', () => {
     expect(actual).toEqual(expected)
   })
 
-  test.todo('[4] the object returned is the exact same one we passed in', 
-  // () => {
-  //   const input = { foo: '  foo ', bar: 'bar ', baz: ' baz' }
-  //   const copy = utils.trimProperties(input)
-  //   expect(copy).toEqual(input)
-  //   expect(copy).toBe(input)
-  // }
+  test('[4] the object returned is the exact same one we passed in', () => {
+    const input = { foo: '  foo ', bar: 'bar ', baz: ' baz' }
+    const copy = utils.trimPropertiesMutation(input)
+    expect(copy).toEqual(input)
+    expect(copy).toBe(input)
+  }
   )
 })
 
@@ -124,7 +123,7 @@ describe('[Exercise 5] Seasons', () => {
     for(let i = 0; i < 39; i++){
       seasons.next()
     }
-    const fortySeason = season.next()
+    const fortySeason = seasons.next()
     expect(fortySeason).toBe('spring')
   })
 })
@@ -136,8 +135,8 @@ describe('[Exercise 6] Car', () => {
   })
 
   test('[15A] car is defined', () => {
-    expect(focus).toBeDefined()
-    expect(focus).toBeInstanceOf(Function)
+    expect(utils.Car).toBeDefined()
+    expect(utils.Car).toBeInstanceOf(Function)
   })
 
   test('[15B] driving the car returns the updated odometer', () => {
@@ -149,34 +148,41 @@ describe('[Exercise 6] Car', () => {
 
   test('[16] driving the car uses gas', () => {
     focus.drive(10)
-    expect(focus.tankSize).toBeLessThan(30)
+    expect(focus.tank).toBeLessThan(20)
   })
 
   test('[17] refueling allows to keep driving', () => {
     focus.drive(600)
-    expect(focus.tankSize).toBe(0)
+    expect(focus.tank).toBe(0)
     focus.refuel(15)
-    expect(focus.tankSize).toBe(15)
+    expect(focus.tank).toBe(15)
   })
 
   test('[18] adding fuel to a full tank has no effect', () => {
-    expect(focus.tankSize).toBe(30)
+    expect(focus.tank).toBe(20)
     focus.refuel(10)
-    expect(focus.tankSize).not.toBeGreaterThan(30)
-    expect(focus.tankSize).toBe(30)
+    expect(focus.tank).not.toBeGreaterThan(20)
+    expect(focus.tank).toBe(20)
   })
 })
 
 describe('[Exercise 7] isEvenNumberAsync', () => {
   test('[19] resolves true if passed an even number', async () => {
-    const evenNum = utils.isEvenNumberAsync(6)
+    const evenNum = await utils.isEvenNumberAsync(6)
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        return err
+      })
+
     expect(evenNum).toBe(true)
     expect(evenNum).not.toBe(false)
     expect(evenNum).toBeTruthy()
   })
 
   test('[20] resolves false if passed an odd number', async () => {
-    const oddNum = util.isEvenNumberAsync(9)
+    const oddNum = await utils.isEvenNumberAsync(9)
     expect(oddNum).not.toBe(true)
     expect(oddNum).toBe(false)
     expect(oddNum).toBeFalsy()

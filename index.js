@@ -83,7 +83,7 @@ class Seasons {
    * [Exercise 5A] Seasons creates a seasons object
    */
   constructor() {
-    this.season = 'summer'
+    this.season = ''
   }
 
   /**
@@ -99,7 +99,10 @@ class Seasons {
    * seasons.next() // returns "summer"
    */
   next() {
-    if(this.season === `summer`){
+    if(this.season === ''){
+      return this.season = `summer`
+    }
+    else if(this.season === `summer`){
       return this.season = `fall`
     }
     else if(this.season === `fall`){
@@ -125,6 +128,8 @@ class Car {
     this.odometer = 0 // car initilizes with zero miles
     this.tank = tankSize // car initiazes full of gas
     // ✨ initialize whatever other properties are needed
+    this.tankSize = tankSize
+    this.mpg = mpg
   }
 
   /**
@@ -141,7 +146,30 @@ class Car {
    * focus.drive(200) // returns 600 (ran out of gas after 100 miles)
    */
   drive(distance) {
-    // ✨ implement
+    distance = parseInt(distance)
+    let gasUsed = distance / this.mpg
+
+    if(this.tank > gasUsed){
+      this.tank -= gasUsed
+      this.odometer += distance
+
+      return this.odometer
+    }
+    else if(this.tank <= gasUsed){
+      if(this.tank >= 0){
+        gasUsed =- this.tank
+        this.tank = 0
+        let wantDist = gasUsed * this.mpg
+        distance =- Math.round(wantDist)
+
+        this.odometer += distance
+        return (`${this.odometer} (ran out of gas after ${distance} miles)`)
+      }
+      else{
+        this.tank = 0
+        return (`${this.odometer} (ran out of gas after ${distance} miles)`)
+      }
+    }
   }
 
   /**
@@ -156,9 +184,19 @@ class Car {
    * focus.refuel(99) // returns 600 (tank only holds 20)
    */
   refuel(gallons) {
-    // ✨ implement
+    gallons = parseInt(gallons)
+
+    if(gallons < this.tankSize - this.tank){
+      this.tank += gallons
+      return this.tank * this.mpg
+    }
+    else{
+      this.tank = this.tankSize
+      return (`${this.tank * this.mpg} (tank only holds ${this.tankSize})`)
+    }
   }
 }
+
 
 /**
  * [Exercise 7] Asynchronously resolves whether a number is even
@@ -174,7 +212,23 @@ class Car {
  * })
  */
 async function isEvenNumberAsync(number) {
-  // ✨ implement
+  number = parseInt(number)
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if(number%2 === 0){
+        resolve(true)
+      }
+      else if(number%2 === 1){
+        resolve(false)
+      }
+      else{
+        reject(`Number must be a number`)
+      }  
+    }, 1000)
+  })
+
+  return promise
 }
 
 module.exports = {
