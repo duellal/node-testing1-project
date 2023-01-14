@@ -7,7 +7,13 @@
  * trimProperties({ name: '  jane  ' }) // returns a new object { name: 'jane' }
  */
 function trimProperties(obj) {
-  // ✨ implement
+  const newObj = {}
+
+  for(let key in obj){
+    newObj[key] = obj[key].trim()
+  }
+
+  return newObj
 }
 
 /**
@@ -19,7 +25,12 @@ function trimProperties(obj) {
  * trimPropertiesMutation({ name: '  jane  ' }) // returns the object mutated in place { name: 'jane' }
  */
 function trimPropertiesMutation(obj) {
-  // ✨ implement
+  //need to come back to this one
+  for(let key in obj){
+    obj[key] = obj[key].trim()
+  }
+
+  return obj
 }
 
 /**
@@ -31,7 +42,13 @@ function trimPropertiesMutation(obj) {
  * findLargestInteger([{ integer: 1 }, { integer: 3 }, { integer: 2 }]) // returns 3
  */
 function findLargestInteger(integers) {
-  // ✨ implement
+  let largeNum = integers[0].integer
+  for(let i = 0; i < integers.length; i++){
+    if(integers[i].integer > largeNum){
+      return largeNum = integers[i].integer
+    }
+  }
+  return largeNum
 }
 
 class Counter {
@@ -40,7 +57,7 @@ class Counter {
    * @param {number} initialNumber - the initial state of the count
    */
   constructor(initialNumber) {
-    // ✨ initialize whatever properties are needed
+    this.count = initialNumber
   }
 
   /**
@@ -56,7 +73,8 @@ class Counter {
    * counter.countDown() // returns 0
    */
   countDown() {
-    // ✨ implement
+    const count = this.count > 0 ? this.count-- : 0
+    return count
   }
 }
 
@@ -65,7 +83,7 @@ class Seasons {
    * [Exercise 5A] Seasons creates a seasons object
    */
   constructor() {
-    // ✨ initialize whatever properties are needed
+    this.season = ''
   }
 
   /**
@@ -81,7 +99,21 @@ class Seasons {
    * seasons.next() // returns "summer"
    */
   next() {
-    // ✨ implement
+    if(this.season === ''){
+      return this.season = `summer`
+    }
+    else if(this.season === `summer`){
+      return this.season = `fall`
+    }
+    else if(this.season === `fall`){
+      return this.season = `winter`
+    }
+    else if(this.season === `winter`){
+      return this.season = `spring`
+    }
+    else if (this.season === `spring`){
+      return this.season = `summer`
+    }
   }
 }
 
@@ -96,6 +128,8 @@ class Car {
     this.odometer = 0 // car initilizes with zero miles
     this.tank = tankSize // car initiazes full of gas
     // ✨ initialize whatever other properties are needed
+    this.tankSize = tankSize
+    this.mpg = mpg
   }
 
   /**
@@ -112,7 +146,30 @@ class Car {
    * focus.drive(200) // returns 600 (ran out of gas after 100 miles)
    */
   drive(distance) {
-    // ✨ implement
+    distance = parseInt(distance)
+    let gasUsed = distance / this.mpg
+
+    if(this.tank > gasUsed){
+      this.tank -= gasUsed
+      this.odometer += distance
+
+      return this.odometer
+    }
+    else if(this.tank <= gasUsed){
+      if(this.tank >= 0){
+        gasUsed =- this.tank
+        this.tank = 0
+        let wantDist = gasUsed * this.mpg
+        distance =- Math.round(wantDist)
+
+        this.odometer += distance
+        return (`${this.odometer} (ran out of gas after ${distance} miles)`)
+      }
+      else{
+        this.tank = 0
+        return (`${this.odometer} (ran out of gas after ${distance} miles)`)
+      }
+    }
   }
 
   /**
@@ -127,9 +184,19 @@ class Car {
    * focus.refuel(99) // returns 600 (tank only holds 20)
    */
   refuel(gallons) {
-    // ✨ implement
+    gallons = parseInt(gallons)
+
+    if(gallons < this.tankSize - this.tank){
+      this.tank += gallons
+      return this.tank * this.mpg
+    }
+    else{
+      this.tank = this.tankSize
+      return (`${this.tank * this.mpg} (tank only holds ${this.tankSize})`)
+    }
   }
 }
+
 
 /**
  * [Exercise 7] Asynchronously resolves whether a number is even
@@ -144,8 +211,24 @@ class Car {
  *    // result is false
  * })
  */
-function isEvenNumberAsync(number) {
-  // ✨ implement
+async function isEvenNumberAsync(number) {
+  number = parseInt(number)
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if(number%2 === 0){
+        resolve(true)
+      }
+      else if(number%2 === 1){
+        resolve(false)
+      }
+      else{
+        reject(`Number must be a number`)
+      }  
+    }, 1000)
+  })
+
+  return promise
 }
 
 module.exports = {
